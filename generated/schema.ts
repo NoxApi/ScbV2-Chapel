@@ -178,7 +178,7 @@ export class food extends Entity {
     this.set("id", Value.fromString(id));
 
     this.set("amount", Value.fromBigInt(BigInt.zero()));
-    this.set("unlockweek", Value.fromBigInt(BigInt.zero()));
+    this.set("isclaim", Value.fromBoolean(false));
     this.set("Token", Value.fromString(""));
   }
 
@@ -216,13 +216,13 @@ export class food extends Entity {
     this.set("amount", Value.fromBigInt(value));
   }
 
-  get unlockweek(): BigInt {
-    let value = this.get("unlockweek");
-    return value!.toBigInt();
+  get isclaim(): boolean {
+    let value = this.get("isclaim");
+    return value!.toBoolean();
   }
 
-  set unlockweek(value: BigInt) {
-    this.set("unlockweek", Value.fromBigInt(value));
+  set isclaim(value: boolean) {
+    this.set("isclaim", Value.fromBoolean(value));
   }
 
   get Token(): string {
@@ -232,5 +232,58 @@ export class food extends Entity {
 
   set Token(value: string) {
     this.set("Token", Value.fromString(value));
+  }
+}
+
+export class lockchoice extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+
+    this.set("week", Value.fromBigInt(BigInt.zero()));
+    this.set("multiplier", Value.fromBigInt(BigInt.zero()));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save lockchoice entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        `Entities of type lockchoice must have an ID of type String but the id '${id.displayData()}' is of type ${id.displayKind()}`
+      );
+      store.set("lockchoice", id.toString(), this);
+    }
+  }
+
+  static load(id: string): lockchoice | null {
+    return changetype<lockchoice | null>(store.get("lockchoice", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
+  }
+
+  get week(): BigInt {
+    let value = this.get("week");
+    return value!.toBigInt();
+  }
+
+  set week(value: BigInt) {
+    this.set("week", Value.fromBigInt(value));
+  }
+
+  get multiplier(): BigInt {
+    let value = this.get("multiplier");
+    return value!.toBigInt();
+  }
+
+  set multiplier(value: BigInt) {
+    this.set("multiplier", Value.fromBigInt(value));
   }
 }

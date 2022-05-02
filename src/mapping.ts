@@ -13,7 +13,7 @@ import {
   Transfer,
   UpdateLockChoice
 } from "../generated/Scbv2Chapel/Scbv2Chapel"
-import { user,food,token } from "../generated/schema"
+import { user,food,token,lockchoice } from "../generated/schema"
 
 
 
@@ -28,25 +28,31 @@ export function handleEvole(event: Evole): void {
 
 export function handleFeed(event: Feed): void {
   let ID = token.load(event.params.tokenId.toString())
-  let foods = new food(ID!.foodindex.toString())
-  foods.amount = event.params.amount
+  let foods =food.load(event.params.unlockWeek.toString())
+  if (foods == null){
+    foods= new food(event.params.unlockWeek.toString())
+    foods.amount = new BigInt(0)
+  }
+  foods.amount += event.params.amount
   foods.Token = event.params.tokenId.toString()
-  foods.unlockweek = event.params.unlockWeek
   foods.save()
   ID!.Exp = event.params.exp
-  ID!.amount+=foods.amount
   ID!.foodindex=ID!.foodindex+1
   ID!.save()
 }
 
-export function handleNewLockChoice(event: NewLockChoice): void {}
+export function handleNewLockChoice(event: NewLockChoice): void {
+  let lc = new lockchoice(event.params.index.toString())
+  lc.week = event.params.week
+  lc.multiplier = event.params.multiplier
+}
 
 export function handleOwnershipTransferred(event: OwnershipTransferred): void {}
 
 export function handleReclaim(event: Reclaim): void {
-  let ID = token.load(event.params.tokenId.toString())
-  ID!.LastestReclaim = event.params.week
-  ID!.save()
+  let foods = food.load(event.params.week.toString())
+  foods!.isclaim = true
+  foods!.save()
 }
 
 export function handleRecovered(event: Recovered): void {}
@@ -64,7 +70,6 @@ export function handleTransfer(event: Transfer): void {
     ID.evolform = new BigInt(1)
     ID.race = new BigInt(0)
     ID.amount =new BigInt(0)
-    ID.foodindex = 0
     ID.Exp = new BigInt(0)
     ID.LastestReclaim =new BigInt(0)
     }
@@ -73,4 +78,8 @@ export function handleTransfer(event: Transfer): void {
   entity.save()
   }
 
-export function handleUpdateLockChoice(event: UpdateLockChoice): void {}
+export function handleUpdateLockChoice(event: UpdateLockChoice): void {
+  let lc = lockchoice.load(event.params.index.toString())
+  lc!.multiplier = event.params.multiplier
+  lc!.week = event.params.week
+}
