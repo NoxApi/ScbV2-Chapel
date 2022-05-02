@@ -60,7 +60,7 @@ export function handleTransfer(event: Transfer): void {
   }
   let ID = token.load(event.params.tokenId.toString())
   if (ID== null) {
-    let ID = new token(event.params.tokenId.toString())
+    ID = new token(event.params.tokenId.toString())
     ID.evolform = new BigInt(1)
     ID.race = new BigInt(0)
     ID.amount =new BigInt(0)
@@ -68,8 +68,8 @@ export function handleTransfer(event: Transfer): void {
     ID.Exp = new BigInt(0)
     ID.LastestReclaim =new BigInt(0)
     }
-  ID!.User = event.params.to
-  ID!.save()
+  ID.User = event.params.to
+  ID.save()
   entity.save()
   }
 
