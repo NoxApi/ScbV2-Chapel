@@ -1,0 +1,53 @@
+specVersion: 0.0.1
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: Scbv2Chapel
+    network: chapel
+    source:
+      address: "0x44bb25E22Ac91d910FE33a8F23c57Ce997304cB8"
+      abi: Scbv2Chapel
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - Approval
+        - ApprovalForAll
+        - Evole
+        - Feed
+        - NewLockChoice
+        - OwnershipTransferred
+        - Reclaim
+        - Recovered
+        - RewardPaid
+        - Transfer
+        - UpdateLockChoice
+      abis:
+        - name: Scbv2Chapel
+          file: ./abis/Scbv2Chapel.json
+      eventHandlers:
+        - event: Approval(indexed address,indexed address,indexed uint256)
+          handler: handleApproval
+        - event: ApprovalForAll(indexed address,indexed address,bool)
+          handler: handleApprovalForAll
+        - event: Evole(uint256,uint256,uint256)
+          handler: handleEvole
+        - event: Feed(uint256,uint256,uint256,uint256)
+          handler: handleFeed
+        - event: NewLockChoice(uint256,uint256,uint256)
+          handler: handleNewLockChoice
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: Reclaim(uint256,uint256,uint256)
+          handler: handleReclaim
+        - event: Recovered(address,uint256)
+          handler: handleRecovered
+        - event: RewardPaid(address,address,uint256)
+          handler: handleRewardPaid
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
+        - event: UpdateLockChoice(uint256,uint256,uint256)
+          handler: handleUpdateLockChoice
+      file: ./src/mapping.ts
