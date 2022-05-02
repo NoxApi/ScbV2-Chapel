@@ -18,6 +18,12 @@ type token @entity {
 type food @entity {
   id: String!
   amount: BigInt!
-  unlockweek: BigInt!
+  isclaim: Boolean!
   Token: token!
+}
+
+type lockchoice @entity {
+  id: String!
+  week: BigInt!
+  multiplier: BigInt!
 }

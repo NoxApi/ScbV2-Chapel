@@ -45,6 +45,7 @@ export function handleNewLockChoice(event: NewLockChoice): void {
   let lc = new lockchoice(event.params.index.toString())
   lc.week = event.params.week
   lc.multiplier = event.params.multiplier
+  lc.save()
 }
 
 export function handleOwnershipTransferred(event: OwnershipTransferred): void {}
@@ -82,4 +83,5 @@ export function handleUpdateLockChoice(event: UpdateLockChoice): void {
   let lc = lockchoice.load(event.params.index.toString())
   lc!.multiplier = event.params.multiplier
   lc!.week = event.params.week
+  lc!.save()
 }
