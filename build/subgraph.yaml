@@ -1,6 +1,6 @@
 specVersion: 0.0.2
 schema:
-  file: ./schema.graphql
+  file: schema.graphql
 dataSources:
   - kind: ethereum
     name: Scbv2Chapel
@@ -14,12 +14,12 @@ dataSources:
       apiVersion: 0.0.5
       language: wasm/assemblyscript
       entities:
-         - user
-         - token
-         - food
+        - user
+        - token
+        - food
       abis:
         - name: Scbv2Chapel
-          file: ./abis/Scbv2Chapel.json
+          file: Scbv2Chapel\abis\Scbv2Chapel.json
       eventHandlers:
         - event: Approval(indexed address,indexed address,indexed uint256)
           handler: handleApproval
@@ -43,4 +43,4 @@ dataSources:
           handler: handleTransfer
         - event: UpdateLockChoice(uint256,uint256,uint256)
           handler: handleUpdateLockChoice
-      file: ./src/mapping.ts
+      file: Scbv2Chapel\Scbv2Chapel.wasm

@@ -13,96 +13,64 @@ import {
   Transfer,
   UpdateLockChoice
 } from "../generated/Scbv2Chapel/Scbv2Chapel"
-import { ExampleEntity } from "../generated/schema"
+import { user,food,token } from "../generated/schema"
 
-export function handleApproval(event: Approval): void {
-  // Entities can be loaded from the store using a string ID; this ID
-  // needs to be unique across all entities of the same type
-  let entity = ExampleEntity.load(event.transaction.from.toHex())
 
-  // Entities only exist after they have been saved to the store;
-  // `null` checks allow to create entities on demand
-  if (!entity) {
-    entity = new ExampleEntity(event.transaction.from.toHex())
-
-    // Entity fields can be set using simple assignments
-    entity.count = BigInt.fromI32(0)
-  }
-
-  // BigInt and BigDecimal math are supported
-  entity.count = entity.count + BigInt.fromI32(1)
-
-  // Entity fields can be set based on event parameters
-  entity.owner = event.params.owner
-  entity.approved = event.params.approved
-
-  // Entities can be written to the store with `.save()`
-  entity.save()
-
-  // Note: If a handler doesn't require existing field values, it is faster
-  // _not_ to load the entity from the store. Instead, create it fresh with
-  // `new Entity(...)`, set the fields that should be updated and save the
-  // entity back to the store. Fields that were not set or unset remain
-  // unchanged, allowing for partial updates to be applied.
-
-  // It is also possible to access smart contracts from mappings. For
-  // example, the contract that has emitted the event can be connected to
-  // with:
-  //
-  // let contract = Contract.bind(event.address)
-  //
-  // The following functions can then be called on this contract to access
-  // state variables and other data:
-  //
-  // - contract.BASE_EXP(...)
-  // - contract.MAX_SUPPLY(...)
-  // - contract.PRICE_PER_UNIT(...)
-  // - contract.WEEK(...)
-  // - contract.balanceOf(...)
-  // - contract.getApproved(...)
-  // - contract.getRewardForDuration(...)
-  // - contract.getWeek(...)
-  // - contract.isApprovedForAll(...)
-  // - contract.lastTimeRewardApplicable(...)
-  // - contract.lockChoices(...)
-  // - contract.lockedSupply(...)
-  // - contract.name(...)
-  // - contract.nft(...)
-  // - contract.nftRewardPerTokenPaid(...)
-  // - contract.owner(...)
-  // - contract.ownerOf(...)
-  // - contract.rewardData(...)
-  // - contract.rewardDistributors(...)
-  // - contract.rewardPerToken(...)
-  // - contract.rewardTokens(...)
-  // - contract.rewards(...)
-  // - contract.seller(...)
-  // - contract.startTime(...)
-  // - contract.supportsInterface(...)
-  // - contract.symbol(...)
-  // - contract.tokenByIndex(...)
-  // - contract.tokenOfOwnerByIndex(...)
-  // - contract.tokenURI(...)
-  // - contract.totalSupply(...)
-  // - contract.unlocks(...)
-}
 
 export function handleApprovalForAll(event: ApprovalForAll): void {}
 
-export function handleEvole(event: Evole): void {}
+export function handleEvole(event: Evole): void {
+  let ID = token.load(event.params.tokenId.toString())
+  ID!.evolform = event.params.evolForm
+  ID!.race = event.params.race
+  ID!.save()
+}
 
-export function handleFeed(event: Feed): void {}
+export function handleFeed(event: Feed): void {
+  let ID = token.load(event.params.tokenId.toString())
+  let foods = new food(ID!.foodindex.toString())
+  foods.amount = event.params.amount
+  foods.Token = event.params.tokenId.toString()
+  foods.unlockweek = event.params.unlockWeek
+  foods.save()
+  ID!.Exp = event.params.exp
+  ID!.amount+=foods.amount
+  ID!.foodindex=ID!.foodindex+1
+  ID!.save()
+}
 
 export function handleNewLockChoice(event: NewLockChoice): void {}
 
 export function handleOwnershipTransferred(event: OwnershipTransferred): void {}
 
-export function handleReclaim(event: Reclaim): void {}
+export function handleReclaim(event: Reclaim): void {
+  let ID = token.load(event.params.tokenId.toString())
+  ID!.LastestReclaim = event.params.week
+  ID!.save()
+}
 
 export function handleRecovered(event: Recovered): void {}
 
 export function handleRewardPaid(event: RewardPaid): void {}
 
-export function handleTransfer(event: Transfer): void {}
+export function handleTransfer(event: Transfer): void {
+  let entity = user.load(event.params.to)
+  if (entity== null) {
+    entity = new user(event.params.to)
+  }
+  let ID = token.load(event.params.tokenId.toString())
+  if (ID== null) {
+    let ID = new token(event.params.tokenId.toString())
+    ID.evolform = new BigInt(1)
+    ID.race = new BigInt(0)
+    ID.amount =new BigInt(0)
+    ID.foodindex = 0
+    ID.Exp = new BigInt(0)
+    ID.LastestReclaim =new BigInt(0)
+    }
+  ID!.User = event.params.to
+  ID!.save()
+  entity.save()
+  }
 
 export function handleUpdateLockChoice(event: UpdateLockChoice): void {}
