@@ -32,6 +32,7 @@ export function handleFeed(event: Feed): void {
   if (foods == null){
     foods= new food(event.params.unlockWeek.toString())
     foods.amount = new BigInt(0)
+    foods.isclaim = false
   }
   foods.amount += event.params.amount
   foods.Token = event.params.tokenId.toString()
@@ -68,7 +69,7 @@ export function handleTransfer(event: Transfer): void {
   let ID = token.load(event.params.tokenId.toString())
   if (ID== null) {
     ID = new token(event.params.tokenId.toString())
-    ID.evolform = new BigInt(1)
+    ID.evolform = BigInt.fromString("1")
     ID.race = new BigInt(0)
     ID.amount =new BigInt(0)
     ID.Exp = new BigInt(0)

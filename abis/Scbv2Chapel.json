@@ -369,6 +369,18 @@
     "type": "function"
   },
   {
+    "inputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+    "name": "balances",
+    "outputs": [
+      { "internalType": "uint256", "name": "total", "type": "uint256" },
+      { "internalType": "uint256", "name": "unlocked", "type": "uint256" },
+      { "internalType": "uint256", "name": "locked", "type": "uint256" },
+      { "internalType": "uint256", "name": "earned", "type": "uint256" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
     "inputs": [
       { "internalType": "uint256", "name": "_tokenId", "type": "uint256" }
     ],

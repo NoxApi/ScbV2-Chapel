@@ -6,9 +6,9 @@ dataSources:
     name: Scbv2Chapel
     network: chapel
     source:
-      address: "0x44bb25E22Ac91d910FE33a8F23c57Ce997304cB8"
+      address: "0xaE808ae81922815f257798B6BeaC61af3B13B572"
       abi: Scbv2Chapel
-      startBlock: 18948746
+      startBlock: 19348271
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
