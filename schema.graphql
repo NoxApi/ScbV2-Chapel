@@ -19,6 +19,7 @@ type food @entity {
   id: String!
   amount: BigInt!
   isclaim: Boolean!
+  lockchoice: BigInt!
   Token: token!
 }
 

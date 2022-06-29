@@ -31,13 +31,14 @@ export function handleFeed(event: Feed): void {
   let foods =food.load(event.params.unlockWeek.toString())
   if (foods == null){
     foods= new food(event.params.unlockWeek.toString())
-    foods.amount = new BigInt(0)
     foods.isclaim = false
+    foods.lockchoice = event.params.lockChoices
   }
   foods.amount += event.params.amount
   foods.Token = event.params.tokenId.toString()
   foods.save()
-  ID!.Exp = event.params.exp
+  ID!.amount += event.params.amount
+  ID!.Exp += event.params.exp
   ID!.foodindex=ID!.foodindex+1
   ID!.save()
 }
@@ -53,8 +54,11 @@ export function handleOwnershipTransferred(event: OwnershipTransferred): void {}
 
 export function handleReclaim(event: Reclaim): void {
   let foods = food.load(event.params.week.toString())
+  let nft = token.load(event.params.tokenId.toString())
   foods!.isclaim = true
   foods!.save()
+  nft!.amount -= event.params.amount
+  nft!.save()
 }
 
 export function handleRecovered(event: Recovered): void {}
@@ -73,7 +77,6 @@ export function handleTransfer(event: Transfer): void {
     ID.race = new BigInt(0)
     ID.amount =new BigInt(0)
     ID.Exp = new BigInt(0)
-    ID.LastestReclaim =new BigInt(0)
     }
   ID.User = event.params.to
   ID.save()

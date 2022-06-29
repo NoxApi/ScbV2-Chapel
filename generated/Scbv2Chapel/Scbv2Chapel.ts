@@ -116,6 +116,10 @@ export class Feed__Params {
   get exp(): BigInt {
     return this._event.parameters[3].value.toBigInt();
   }
+
+  get lockChoices(): BigInt {
+    return this._event.parameters[4].value.toBigInt();
+  }
 }
 
 export class NewLockChoice extends ethereum.Event {

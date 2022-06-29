@@ -179,6 +179,7 @@ export class food extends Entity {
 
     this.set("amount", Value.fromBigInt(BigInt.zero()));
     this.set("isclaim", Value.fromBoolean(false));
+    this.set("lockchoice", Value.fromBigInt(BigInt.zero()));
     this.set("Token", Value.fromString(""));
   }
 
@@ -223,6 +224,15 @@ export class food extends Entity {
 
   set isclaim(value: boolean) {
     this.set("isclaim", Value.fromBoolean(value));
+  }
+
+  get lockchoice(): BigInt {
+    let value = this.get("lockchoice");
+    return value!.toBigInt();
+  }
+
+  set lockchoice(value: BigInt) {
+    this.set("lockchoice", Value.fromBigInt(value));
   }
 
   get Token(): string {

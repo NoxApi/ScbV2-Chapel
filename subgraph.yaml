@@ -6,9 +6,9 @@ dataSources:
     name: Scbv2Chapel
     network: chapel
     source:
-      address: "0xaE808ae81922815f257798B6BeaC61af3B13B572"
+      address: "0x52408C7f6Ae2010fb918D6daAbE7D28A6D4C58E0"
       abi: Scbv2Chapel
-      startBlock: 19348271
+      startBlock: 19610885
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.5
@@ -17,6 +17,7 @@ dataSources:
          - user
          - token
          - food
+         - lockchoice
       abis:
         - name: Scbv2Chapel
           file: ./abis/Scbv2Chapel.json
@@ -27,7 +28,7 @@ dataSources:
           handler: handleApprovalForAll
         - event: Evole(uint256,uint256,uint256)
           handler: handleEvole
-        - event: Feed(uint256,uint256,uint256,uint256)
+        - event: Feed(uint256,uint256,uint256,uint256,uint256)
           handler: handleFeed
         - event: NewLockChoice(uint256,uint256,uint256)
           handler: handleNewLockChoice

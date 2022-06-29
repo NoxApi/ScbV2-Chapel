@@ -122,6 +122,12 @@
         "internalType": "uint256",
         "name": "exp",
         "type": "uint256"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "lockChoices",
+        "type": "uint256"
       }
     ],
     "name": "Feed",
